@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FutureLock | Your Future, Locked In</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #F7F1E7;
+      --surface: #FFF9F0;
+      --ink: #1F2A24;
+      --muted: #516158;
+      --green: #1F7A4A;
+      --green2:#2EA56A;
+      --line: rgba(31,42,36,0.12);
+      --shadow: 0 18px 40px rgba(23, 40, 30, 0.12);
+      --radius: 18px;
+      --warn: #C98A00;
+      --warnbg: rgba(244, 180, 0, 0.14);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(46,165,106,0.18), transparent 55%),
+        radial-gradient(900px 500px at 95% 20%, rgba(31,122,74,0.16), transparent 60%),
+        linear-gradient(180deg, var(--bg), #F3EBDD);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1120px; margin:0 auto; padding:22px 18px 70px;}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 8px 6px 18px;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700;}
+    .logo{
+      width: 38px; height: 38px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      box-shadow: 0 10px 20px rgba(31,122,74,0.18);
+      position:relative; overflow:hidden;
+    }
+    .logo:before{
+      content:""; position:absolute; width:42px; height:42px; border-radius:16px;
+      left:-12px; top:16px; background: rgba(255,255,255,0.28); transform: rotate(22deg);
+    }
+    .brand span{font-family: Fraunces, serif; font-size: 20px;}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding: 12px 16px; border-radius: 14px;
+      border: 1px solid rgba(31,122,74,0.22);
+      cursor:pointer; font-weight:600; white-space:nowrap;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      background: rgba(255,255,255,0.55);
+    }
+    .btn:hover{transform: translateY(-1px);}
+    .btn.primary{
+      border:none; color:#fff;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      box-shadow: 0 14px 28px rgba(31,122,74,0.22);
+    }
+    .hero{
+      display:grid; grid-template-columns: 1.2fr 0.8fr; gap:18px; align-items:stretch;
+    }
+    .card{
+      background: rgba(255, 249, 240, 0.78);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .pad{padding: 22px;}
+    h1{
+      margin: 6px 0 10px;
+      font-family: Fraunces, serif;
+      font-size: clamp(32px, 4vw, 46px);
+      letter-spacing: -0.6px;
+      line-height: 1.05;
+    }
+    .sub{margin:0 0 16px; color: var(--muted); font-size: 15px;}
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 8px 12px; border-radius: 999px;
+      border: 1px solid rgba(31,122,74,0.18);
+      background: rgba(255,255,255,0.65);
+      color: var(--muted);
+      font-size: 13px; font-weight: 600;
+    }
+    .dot{
+      width:10px; height:10px; border-radius: 50%;
+      background: var(--green2);
+      box-shadow: 0 0 0 6px rgba(46,165,106,0.14);
+    }
+    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap: 12px;}
+    .mini{
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(31,42,36,0.10);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .mini strong{display:block; font-size: 15px;}
+    .mini span{color: var(--muted); font-size: 13px;}
+    .warnbox{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: var(--warnbg);
+      border: 1px solid rgba(201, 138, 0, 0.20);
+      color: #6b4c00;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .footer{
+      margin-top: 18px;
+      color: rgba(31,42,36,0.60);
+      font-size: 13px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      padding: 0 6px;
+    }
+    @media (max-width: 920px){
+      .hero{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="index.html">
+        <div class="logo" aria-hidden="true"></div>
+        <span>FutureLock</span>
+      </a>
+      <a class="btn primary" href="planner.html">Build My Plan →</a>
+    </div>
+
+    <div class="hero">
+      <div class="card">
+        <div class="pad">
+          <div class="pill"><span class="dot"></span> Discipline-first financial planning</div>
+          <h1>Start your financial independence journey — and actually stick to it.</h1>
+          <p class="sub">
+            FutureLock is an India-based advisory built for the bad-behaviour paradox:
+            people know what’s right, but struggle to follow through.
+            We turn goals into automated commitments with nudges that make “doing the right thing” the easy default.
+          </p>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn primary" href="planner.html">Start My Plan →</a>
+            <a class="btn" href="#about">About Us ↓</a>
+          </div>
+
+          <div class="warnbox">
+            Tiny monthly consistency beats perfect market timing — every single year.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="pad">
+          <strong style="font-family:Fraunces,serif; font-size:22px; display:block; margin-bottom:10px;">
+            What we help with
+          </strong>
+
+          <div class="grid2">
+            <div class="mini">
+              <strong>Retirement</strong>
+              <span>Employer-linked defaults + employee control</span>
+            </div>
+            <div class="mini">
+              <strong>Child education</strong>
+              <span>Inflation-aware goal planning</span>
+            </div>
+            <div class="mini">
+              <strong>Home & lifestyle</strong>
+              <span>Time-bound commitments</span>
+            </div>
+            <div class="mini">
+              <strong>Financial freedom</strong>
+              <span>Behavioral nudges to stay invested</span>
+            </div>
+          </div>
+
+          <div style="margin-top:12px; color:var(--muted); font-size:14px;">
+            Based out of <b>Mumbai</b>, serving clients across India via employer partnerships + individual plans.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="about" style="margin-top:18px;">
+      <div class="pad">
+        <h2 style="font-family:Fraunces,serif; margin:0 0 10px;">About FutureLock</h2>
+        <p style="margin:0; color:var(--muted); font-size:15px;">
+          FutureLock is a behavioral-finance-first advisory. Instead of dumping complex choices,
+          we use choice architecture, defaults, timely prompts, and loss-aversion messaging so people don’t abandon goals.
+          Our employer partners can set a retirement default, and employees can edit goals anytime.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>© <span id="year"></span> FutureLock</div>
+      <div style="display:flex; gap:12px;">
+        <a href="planner.html">Planner</a>
+        <span style="opacity:.5;">•</span>
+        <a href="pricing.html">Pricing</a>
+        <span style="opacity:.5;">•</span>
+        <a href="dashboard.html">Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
