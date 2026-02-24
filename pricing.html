@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FutureLock | Pricing</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#F7F1E7; --surface:#FFF9F0; --ink:#1F2A24; --muted:#516158;
+      --green:#1F7A4A; --green2:#2EA56A; --line:rgba(31,42,36,0.12);
+      --shadow:0 18px 40px rgba(23,40,30,0.12); --radius:18px;
+      --warnbg:rgba(244,180,0,0.14);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(46,165,106,0.18), transparent 55%),
+        radial-gradient(900px 500px at 95% 20%, rgba(31,122,74,0.16), transparent 60%),
+        linear-gradient(180deg, var(--bg), #F3EBDD);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1120px; margin:0 auto; padding:22px 18px 70px;}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 8px 6px 18px;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700;}
+    .logo{
+      width: 38px; height: 38px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      box-shadow: 0 10px 20px rgba(31,122,74,0.18);
+      position:relative; overflow:hidden;
+    }
+    .logo:before{
+      content:""; position:absolute; width:42px; height:42px; border-radius:16px;
+      left:-12px; top:16px; background: rgba(255,255,255,0.28); transform: rotate(22deg);
+    }
+    .brand span{font-family: Fraunces, serif; font-size: 20px;}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding: 12px 16px; border-radius: 14px;
+      border: 1px solid rgba(31,122,74,0.22);
+      cursor:pointer; font-weight:600; white-space:nowrap;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      background: rgba(255,255,255,0.55);
+    }
+    .btn:hover{transform: translateY(-1px);}
+    .btn.primary{
+      border:none; color:#fff;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      box-shadow: 0 14px 28px rgba(31,122,74,0.22);
+    }
+
+    .card{
+      background: rgba(255, 249, 240, 0.78);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .pad{padding: 20px;}
+    h1{
+      margin: 6px 0 8px;
+      font-family: Fraunces, serif;
+      font-size: clamp(28px, 3.6vw, 38px);
+      letter-spacing: -0.4px;
+      line-height: 1.05;
+    }
+    .sub{margin:0 0 12px; color: var(--muted); font-size: 15px;}
+
+    .grid3{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px;}
+    .priceCard{
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(31,42,36,0.10);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .tag{
+      display:inline-block; font-size:12px; font-weight:800;
+      padding:6px 10px; border-radius:999px;
+      background: rgba(46,165,106,0.16);
+      border: 1px solid rgba(46,165,106,0.25);
+      color: var(--green);
+    }
+    .price{
+      font-size: 26px; font-weight: 800; margin:10px 0 6px;
+      font-family: Fraunces, serif;
+    }
+    .muted{color: var(--muted); font-size: 13px;}
+    .divider{height:1px; background: rgba(31,42,36,0.12); margin: 14px 0;}
+
+    .row{display:grid; grid-template-columns: 1fr 1fr; gap:12px;}
+    .field{
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(31,42,36,0.10);
+      border-radius: 16px;
+      padding: 12px;
+    }
+    label{
+      display:block; font-size: 12px; font-weight: 800;
+      color: rgba(31,42,36,0.70); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing:.2px;
+    }
+    select, input{
+      width:100%;
+      border-radius: 12px;
+      border: 1px solid rgba(31,42,36,0.14);
+      padding: 11px 12px;
+      font-size: 14px;
+      outline: none;
+      background: rgba(255,255,255,0.8);
+      color: var(--ink);
+    }
+    .hint{margin-top:6px; font-size:12px; color: var(--muted);}
+    .warnbox{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: var(--warnbg);
+      border: 1px solid rgba(201, 138, 0, 0.20);
+      color: #6b4c00;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    @media (max-width: 920px){
+      .grid3{grid-template-columns: 1fr;}
+      .row{grid-template-columns: 1fr;}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="index.html">
+        <div class="logo" aria-hidden="true"></div>
+        <span>FutureLock</span>
+      </a>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn" href="planner.html">← Back</a>
+        <button class="btn primary" id="continueBtn" type="button">Continue →</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="pad">
+        <h1>Transparent pricing — no hidden commissions.</h1>
+        <p class="sub">
+          We win only if you stick to the plan. Pricing is simple, visible, and designed to avoid “oops I forgot” drop-offs.
+        </p>
+
+        <div class="grid3">
+          <div class="priceCard">
+            <span class="tag">Starter</span>
+            <div class="price">₹499</div>
+            <div class="muted">One-time plan setup</div>
+            <div class="divider"></div>
+            <div class="muted">Goal planning + suggested monthly contribution + dashboard nudges</div>
+          </div>
+
+          <div class="priceCard">
+            <span class="tag">Most chosen</span>
+            <div class="price">₹199/month</div>
+            <div class="muted">Ongoing accountability</div>
+            <div class="divider"></div>
+            <div class="muted">Auto-prompts, progress tracking, “don’t break the streak” nudges</div>
+          </div>
+
+          <div class="priceCard">
+            <span class="tag">Plus</span>
+            <div class="price">0.50% p.a.</div>
+            <div class="muted">On AUM (advisory only)</div>
+            <div class="divider"></div>
+            <div class="muted">Annual review + rebalance prompts + risk drift alerts</div>
+          </div>
+        </div>
+
+        <div class="warnbox" id="nudgeBox">
+          Loss-avoidance tip: skipping ₹199/month can cost you years of progress later.
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <div class="field">
+            <label for="path">How are you joining FutureLock?</label>
+            <select id="path">
+              <option value="company" selected>I’m enrolled via my company (B2B)</option>
+              <option value="individual">I’m joining as an individual</option>
+            </select>
+            <div class="hint">Company users skip payment but still see pricing transparency.</div>
+          </div>
+
+          <div class="field" id="companyWrap">
+            <label for="company">Select your partner company</label>
+            <select id="company">
+              <option value="Tata Services">Tata Services</option>
+              <option value="Reliance Group">Reliance Group</option>
+              <option value="Infoserve Ltd.">Infoserve Ltd.</option>
+              <option value="HDFC Partners">HDFC Partners</option>
+              <option value="Other">Other (demo)</option>
+            </select>
+            <div class="hint">This is a demo dropdown — in real deployment it’s validated.</div>
+          </div>
+
+          <div class="field" id="payWrap" style="display:none;">
+            <label>Choose payment method</label>
+            <select id="payMethod">
+              <option value="upi" selected>UPI</option>
+              <option value="card">Card</option>
+              <option value="netbanking">NetBanking</option>
+            </select>
+            <div class="hint">This is a simulation. GitHub Pages can’t process real payments.</div>
+          </div>
+
+          <div class="field" id="payAmountWrap" style="display:none;">
+            <label for="planPick">Pick plan</label>
+            <select id="planPick">
+              <option value="starter">Starter (₹499 one-time)</option>
+              <option value="monthly" selected>Accountability (₹199/month)</option>
+              <option value="aum">Plus (0.50% p.a. on AUM)</option>
+            </select>
+            <div class="hint">Monthly plan is used for nudges + habit building.</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <button class="btn primary" id="payBtn" type="button" style="display:none;">Simulate Payment →</button>
+          <button class="btn primary" id="skipBtn" type="button">Continue to Dashboard →</button>
+          <a class="btn" href="planner.html">Edit plan</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const pathEl = document.getElementById("path");
+    const companyWrap = document.getElementById("companyWrap");
+    const payWrap = document.getElementById("payWrap");
+    const payAmountWrap = document.getElementById("payAmountWrap");
+    const payBtn = document.getElementById("payBtn");
+    const skipBtn = document.getElementById("skipBtn");
+    const continueBtn = document.getElementById("continueBtn");
+
+    function setUI(){
+      const isInd = pathEl.value === "individual";
+      companyWrap.style.display = isInd ? "none" : "block";
+      payWrap.style.display = isInd ? "block" : "none";
+      payAmountWrap.style.display = isInd ? "block" : "none";
+      payBtn.style.display = isInd ? "inline-flex" : "none";
+      skipBtn.style.display = isInd ? "none" : "inline-flex";
+    }
+
+    function savePricingDecision(status){
+      const pricing = {
+        joinPath: pathEl.value,
+        company: document.getElementById("company").value,
+        payMethod: document.getElementById("payMethod")?.value || "",
+        planPick: document.getElementById("planPick")?.value || "",
+        paymentStatus: status,
+        decidedAt: new Date().toISOString()
+      };
+      localStorage.setItem("futurelock_pricing_v1", JSON.stringify(pricing));
+    }
+
+    pathEl.addEventListener("change", setUI);
+
+    payBtn.addEventListener("click", () => {
+      savePricingDecision("paid_simulated");
+      window.location.href = "dashboard.html";
+    });
+
+    skipBtn.addEventListener("click", () => {
+      savePricingDecision("b2b_covered");
+      window.location.href = "dashboard.html";
+    });
+
+    continueBtn.addEventListener("click", () => {
+      if(pathEl.value === "individual") {
+        savePricingDecision("payment_pending");
+      } else {
+        savePricingDecision("b2b_covered");
+      }
+      window.location.href = "dashboard.html";
+    });
+
+    setUI();
+
+    // Guard: ensure planner exists
+    (function ensurePlan(){
+      const raw = localStorage.getItem("futurelock_plan_v1");
+      if(!raw){
+        alert("No saved plan found. Please fill the planner first.");
+        window.location.href = "planner.html";
+      }
+    })();
+  </script>
+</body>
+</html>
