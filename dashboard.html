@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FutureLock | Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#F7F1E7; --surface:#FFF9F0; --ink:#1F2A24; --muted:#516158;
+      --green:#1F7A4A; --green2:#2EA56A; --line:rgba(31,42,36,0.12);
+      --shadow:0 18px 40px rgba(23,40,30,0.12); --radius:18px;
+      --warn:#C98A00; --warnbg:rgba(244,180,0,0.14);
+      --bad:#B54747; --badbg:rgba(181,71,71,0.10);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(46,165,106,0.18), transparent 55%),
+        radial-gradient(900px 500px at 95% 20%, rgba(31,122,74,0.16), transparent 60%),
+        linear-gradient(180deg, var(--bg), #F3EBDD);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1120px; margin:0 auto; padding:22px 18px 70px;}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 8px 6px 18px;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700;}
+    .logo{
+      width: 38px; height: 38px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      box-shadow: 0 10px 20px rgba(31,122,74,0.18);
+      position:relative; overflow:hidden;
+    }
+    .logo:before{
+      content:""; position:absolute; width:42px; height:42px; border-radius:16px;
+      left:-12px; top:16px; background: rgba(255,255,255,0.28); transform: rotate(22deg);
+    }
+    .brand span{font-family: Fraunces, serif; font-size: 20px;}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding: 12px 16px; border-radius: 14px;
+      border: 1px solid rgba(31,122,74,0.22);
+      cursor:pointer; font-weight:600; white-space:nowrap;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      background: rgba(255,255,255,0.55);
+    }
+    .btn:hover{transform: translateY(-1px);}
+    .btn.primary{
+      border:none; color:#fff;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      box-shadow: 0 14px 28px rgba(31,122,74,0.22);
+    }
+    .btn.danger{
+      border: 1px solid rgba(181,71,71,0.35);
+      background: rgba(255,255,255,0.6);
+      color: #7a2d2d;
+    }
+
+    .layout{display:grid; grid-template-columns: 1.1fr 0.9fr; gap:18px; align-items:start;}
+    .card{
+      background: rgba(255, 249, 240, 0.78);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .pad{padding: 18px;}
+    h1{
+      margin: 6px 0 8px;
+      font-family: Fraunces, serif;
+      font-size: clamp(28px, 3.6vw, 38px);
+      letter-spacing: -0.4px;
+      line-height: 1.05;
+    }
+    .sub{margin:0 0 12px; color: var(--muted); font-size: 15px;}
+
+    .kpis{display:grid; grid-template-columns: 1fr 1fr; gap:12px;}
+    .kpi{
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(31,42,36,0.10);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .kpi strong{display:block; font-size:16px;}
+    .kpi span{color:var(--muted); font-size:13px;}
+
+    .warnbox{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: var(--warnbg);
+      border: 1px solid rgba(201, 138, 0, 0.20);
+      color: #6b4c00;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .badbox{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: var(--badbg);
+      border: 1px solid rgba(181,71,71,0.22);
+      color: #6d2c2c;
+      font-weight: 800;
+      font-size: 13px;
+      display:none;
+    }
+
+    .toggleRow{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top: 10px;}
+    .seg{
+      display:flex; border-radius: 999px; overflow:hidden;
+      border: 1px solid rgba(31,42,36,0.16);
+      background: rgba(255,255,255,0.55);
+    }
+    .seg button{
+      border:none; padding:10px 12px; cursor:pointer; font-weight:800;
+      background: transparent; color: rgba(31,42,36,0.75);
+    }
+    .seg button.active{
+      background: rgba(46,165,106,0.20);
+      color: var(--green);
+    }
+
+    .canvasBox{
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(31,42,36,0.10);
+      border-radius: 16px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+    canvas{width:100%; height:180px; display:block;}
+
+    .progressBar{
+      height: 14px; border-radius: 999px;
+      background: rgba(181,71,71,0.18);
+      border: 1px solid rgba(31,42,36,0.10);
+      overflow:hidden;
+      margin-top: 10px;
+    }
+    .progressFill{
+      height:100%;
+      width:0%;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      border-radius: 999px;
+    }
+
+    .faq{
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(31,42,36,0.10);
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+    .faq strong{display:block; margin-bottom:6px;}
+    .faq p{margin:0; color:var(--muted); font-size:14px;}
+
+    .modalOverlay{
+      position:fixed; inset:0; background: rgba(0,0,0,0.35);
+      display:none; align-items:center; justify-content:center; padding:18px;
+    }
+    .modal{
+      max-width:520px; width:100%;
+      background: rgba(255,249,240,0.96);
+      border: 1px solid rgba(31,42,36,0.18);
+      border-radius: 18px;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.25);
+      overflow:hidden;
+    }
+    .modal .pad{padding:16px;}
+    .modal h2{margin:0 0 8px; font-family:Fraunces,serif;}
+    .modal p{margin:0; color:var(--muted);}
+    .modalActions{display:flex; gap:10px; padding: 0 16px 16px; flex-wrap:wrap;}
+    @media (max-width: 920px){
+      .layout{grid-template-columns:1fr;}
+      .kpis{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="index.html">
+        <div class="logo" aria-hidden="true"></div>
+        <span>FutureLock</span>
+      </a>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn" href="planner.html">Edit Plan</a>
+        <a class="btn" href="pricing.html">Pricing</a>
+        <button class="btn danger" id="redeemBtn" type="button">Redeem / Withdraw</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="card">
+        <div class="pad">
+          <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap;">
+            <div>
+              <h1>Your future depends less on returns and more on discipline.</h1>
+              <p class="sub">Automate financial commitments and stay on track — even on lazy days.</p>
+            </div>
+            <div id="goalArt" style="min-width:220px; max-width:260px;"></div>
+          </div>
+
+          <div class="kpis">
+            <div class="kpi">
+              <strong id="k_goal">—</strong>
+              <span>Goal selected</span>
+            </div>
+            <div class="kpi">
+              <strong id="k_years">—</strong>
+              <span>Time to goal</span>
+            </div>
+            <div class="kpi">
+              <strong id="k_monthly">—</strong>
+              <span>Your monthly investment</span>
+            </div>
+            <div class="kpi">
+              <strong id="k_required">—</strong>
+              <span>Required monthly (to hit goal)</span>
+            </div>
+            <div class="kpi">
+              <strong id="k_value">—</strong>
+              <span>Projected final value</span>
+            </div>
+            <div class="kpi">
+              <strong id="k_prob">—</strong>
+              <span>Projected probability of completion</span>
+            </div>
+          </div>
+
+          <div class="toggleRow">
+            <div class="seg" role="tablist" aria-label="Scenario toggle">
+              <button type="button" class="active" id="t_base">Base</button>
+              <button type="button" id="t_bad">Bad year</button>
+              <button type="button" id="t_good">Good year</button>
+            </div>
+            <div style="color:var(--muted); font-size:13px;">
+              Scenarios change return assumptions (nudging you to focus on controllables).
+            </div>
+          </div>
+
+          <div class="warnbox" id="lossNudge">
+            — 
+          </div>
+
+          <div class="badbox" id="gapBox"></div>
+
+          <div class="canvasBox">
+            <strong style="display:block; margin-bottom:6px;">Visual goal tracker</strong>
+            <div style="color:var(--muted); font-size:13px;">Green = what your current plan covers. Red = gap risk.</div>
+            <div class="progressBar" aria-label="Goal timeline progress">
+              <div class="progressFill" id="progressFill"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-top:6px;">
+              <span id="p_start">—</span>
+              <span id="p_target">—</span>
+            </div>
+          </div>
+
+          <div class="canvasBox">
+            <strong style="display:block; margin-bottom:6px;">Growth line (projection)</strong>
+            <canvas id="growthCanvas" width="900" height="220"></canvas>
+            <div style="color:var(--muted); font-size:12px; margin-top:6px;" id="chartNote">—</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="pad">
+          <strong style="display:block; font-family:Fraunces,serif; font-size:22px; margin-bottom:6px;">
+            Your behavior layer
+          </strong>
+          <div style="color:var(--muted); font-size:14px;">
+            We don’t rely on motivation. We design the page so “stay invested” is the easiest button to press.
+          </div>
+
+          <div class="faq" id="socialProofBox">
+            <strong>Social proof</strong>
+            <p id="socialProofText">—</p>
+          </div>
+
+          <div class="faq" id="inflationBox">
+            <strong>Reality check</strong>
+            <p id="inflationText">—</p>
+          </div>
+
+          <div class="faq" id="faqBox">
+            <strong id="faqQ">FAQ</strong>
+            <p id="faqA">—</p>
+          </div>
+
+          <div class="faq">
+            <strong>Next steps</strong>
+            <p>
+              Keep your monthly commitment stable. If you increase it even slightly, your probability jumps fast.
+              This page will reflect it instantly after edits.
+            </p>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+            <a class="btn primary" href="planner.html">Adjust my plan</a>
+            <a class="btn" href="pricing.html">See pricing</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalOverlay" id="modalOverlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Redeem warning">
+      <div class="pad">
+        <h2>Before you withdraw…</h2>
+        <p id="redeemMsg">Withdrawing now reduces your future options.</p>
+      </div>
+      <div class="modalActions">
+        <button class="btn" id="cancelRedeem" type="button">Cancel</button>
+        <button class="btn primary" id="confirmRedeem" type="button">I understand, proceed</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const INR = (n) => "₹" + Math.round(Number(n||0)).toLocaleString("en-IN");
+
+    function getPlan(){
+      const raw = localStorage.getItem("futurelock_plan_v1");
+      if(!raw) return null;
+      return JSON.parse(raw);
+    }
+
+    function getPricing(){
+      const raw = localStorage.getItem("futurelock_pricing_v1");
+      if(!raw) return null;
+      return JSON.parse(raw);
+    }
+
+    // Assumptions (demo but realistic-ish)
+    const GOAL_BASE = {
+      "Retirement": { base: 12000000, infl: 0.06, rModerate: 0.10 },
+      "Child Education": { base: 3000000, infl: 0.08, rModerate: 0.10 },
+      "Buy a Home": { base: 2500000, infl: 0.06, rModerate: 0.09 },
+      "Emergency Fund": { base: 600000, infl: 0.05, rModerate: 0.07 },
+      "Financial Freedom": { base: 8000000, infl: 0.06, rModerate: 0.10 },
+      "Buy a Car": { base: 900000, infl: 0.06, rModerate: 0.08 },
+      "Wedding": { base: 1200000, infl: 0.06, rModerate: 0.08 },
+      "Start a Business": { base: 2000000, infl: 0.07, rModerate: 0.10 },
+      "Travel Fund": { base: 400000, infl: 0.06, rModerate: 0.07 },
+      "Health & Medical": { base: 1000000, infl: 0.07, rModerate: 0.08 },
+      "Other": { base: 1500000, infl: 0.06, rModerate: 0.09 }
+    };
+
+    function scenarioReturn(risk, scenario){
+      // risk influences base return; scenario shocks it
+      const base = (risk === "Conservative") ? 0.07 : (risk === "Aggressive") ? 0.12 : 0.10;
+      if(scenario === "bad") return Math.max(0.02, base - 0.04);
+      if(scenario === "good") return base + 0.03;
+      return base;
+    }
+
+    function fvAnnuity(monthly, annualRate, years){
+      // FV for monthly contributions: PMT * [((1+i)^n - 1)/i]
+      const i = annualRate / 12;
+      const n = Math.max(0, Math.round(years * 12));
+      if(i === 0) return monthly * n;
+      return monthly * ((Math.pow(1+i, n) - 1) / i);
+    }
+
+    function requiredMonthlyForTarget(targetFV, annualRate, years){
+      const i = annualRate / 12;
+      const n = Math.max(0, Math.round(years * 12));
+      if(n <= 0) return Infinity;
+      if(i === 0) return targetFV / n;
+      const denom = ((Math.pow(1+i, n) - 1) / i);
+      return targetFV / denom;
+    }
+
+    function goalName(plan){
+      if(plan.goal === "Other") return plan.otherGoal?.trim() || "Other";
+      return plan.goal;
+    }
+
+    function goalKey(plan){
+      const k = (plan.goal === "Other") ? "Other" : plan.goal;
+      return GOAL_BASE[k] ? k : "Other";
+    }
+
+    function goalSVG(key){
+      // Simple inline SVG “imagery” per your ask (kid, future self, etc.)
+      const common = 'style="width:100%; max-width:260px;"';
+      if(key === "Child Education"){
+        return `<svg ${common} viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g" x1="0" x2="1">
+            <stop offset="0" stop-color="#1F7A4A"/><stop offset="1" stop-color="#2EA56A"/></linearGradient></defs>
+          <rect x="14" y="18" rx="18" ry="18" width="232" height="144" fill="rgba(255,255,255,0.6)" stroke="rgba(31,42,36,0.12)"/>
+          <path d="M45 130 C 70 105, 95 115, 120 85 C 145 55, 175 60, 205 40" fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="80" cy="115" r="18" fill="rgba(46,165,106,0.25)" stroke="rgba(31,42,36,0.12)"/>
+          <circle cx="80" cy="110" r="10" fill="#2EA56A"/>
+          <rect x="160" y="78" width="55" height="40" rx="10" fill="rgba(31,122,74,0.18)" />
+          <text x="168" y="104" font-size="12" fill="#1F2A24" font-weight="700">Grad</text>
+        </svg>`;
+      }
+      if(key === "Retirement"){
+        return `<svg ${common} viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g" x1="0" x2="1">
+            <stop offset="0" stop-color="#1F7A4A"/><stop offset="1" stop-color="#2EA56A"/></linearGradient></defs>
+          <rect x="14" y="18" rx="18" ry="18" width="232" height="144" fill="rgba(255,255,255,0.6)" stroke="rgba(31,42,36,0.12)"/>
+          <circle cx="95" cy="85" r="28" fill="rgba(46,165,106,0.22)" stroke="rgba(31,42,36,0.12)"/>
+          <path d="M72 76 C 82 60, 108 60, 118 76" stroke="rgba(31,42,36,0.35)" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="85" cy="85" r="4" fill="#1F2A24"/><circle cx="105" cy="85" r="4" fill="#1F2A24"/>
+          <path d="M86 98 C 95 108, 103 108, 112 98" stroke="url(#g)" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <rect x="145" y="70" width="80" height="60" rx="14" fill="rgba(31,122,74,0.18)"/>
+          <text x="155" y="105" font-size="12" fill="#1F2A24" font-weight="700">Future You</text>
+        </svg>`;
+      }
+      return `<svg ${common} viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="g" x1="0" x2="1">
+          <stop offset="0" stop-color="#1F7A4A"/><stop offset="1" stop-color="#2EA56A"/></linearGradient></defs>
+        <rect x="14" y="18" rx="18" ry="18" width="232" height="144" fill="rgba(255,255,255,0.6)" stroke="rgba(31,42,36,0.12)"/>
+        <path d="M45 130 C 80 90, 120 120, 150 70 C 175 30, 210 70, 220 45" fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="45" cy="130" r="6" fill="#1F7A4A"/>
+        <circle cx="220" cy="45" r="6" fill="#2EA56A"/>
+        <text x="60" y="60" font-size="12" fill="#1F2A24" font-weight="700">Goal Path</text>
+      </svg>`;
+    }
+
+    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+
+    function computeProbability(monthly, required, years, risk){
+      // Behaviorally meaningful proxy:
+      //  - Adequacy ratio dominates (monthly/required)
+      //  - Longer horizon helps
+      //  - Aggressive adds volatility penalty
+      const ratio = (required === Infinity) ? 0 : (monthly / required);
+      let p = 0.15 + 0.75 * clamp(ratio, 0, 1.2) / 1.2;
+      p += clamp((years - 2) / 30, 0, 0.12);
+      if(risk === "Aggressive") p -= 0.06;
+      if(risk === "Conservative") p += 0.03;
+      return clamp(p, 0.05, 0.97);
+    }
+
+    function drawGrowth(canvas, series){
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0,0,w,h);
+
+      // axes
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = "rgba(31,42,36,0.18)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(40, 15); ctx.lineTo(40, h-30); ctx.lineTo(w-15, h-30);
+      ctx.stroke();
+
+      const maxV = Math.max(...series.map(s=>s.value), 1);
+      const minV = Math.min(...series.map(s=>s.value), 0);
+
+      function X(i){ return 40 + (i*(w-70)/(series.length-1)); }
+      function Y(v){
+        const t = (v - minV) / (maxV - minV || 1);
+        return (h-30) - t*(h-55);
+      }
+
+      // line
+      ctx.strokeStyle = "rgba(31,122,74,0.85)";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      series.forEach((pt, i)=>{
+        const x = X(i), y = Y(pt.value);
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+
+      // dots
+      ctx.fillStyle = "rgba(46,165,106,0.95)";
+      series.forEach((pt, i)=>{
+        if(i===0 || i===series.length-1 || i===Math.floor(series.length/2)){
+          const x = X(i), y = Y(pt.value);
+          ctx.beginPath(); ctx.arc(x,y,6,0,Math.PI*2); ctx.fill();
+        }
+      });
+
+      // labels
+      ctx.fillStyle = "rgba(31,42,36,0.65)";
+      ctx.font = "12px Inter, Arial";
+      ctx.fillText(series[0].label, 40, h-10);
+      ctx.fillText(series[series.length-1].label, w-80, h-10);
+      ctx.fillText("₹", 18, 22);
+    }
+
+    const FAQS = [
+      {q:"If I miss a month, is it ruined?", a:"No. The plan is about streaks, not perfection. Restart next month and keep the habit alive."},
+      {q:"Why does FutureLock show loss messages?", a:"Because loss aversion works. We make the cost of quitting visible so you don’t ‘forget’ your goal."},
+      {q:"What matters more: returns or consistency?", a:"Consistency. Returns help, but discipline decides whether you actually reach the target."},
+      {q:"Should I increase monthly later?", a:"Yes. A small step-up (even 5–10% yearly) can raise completion odds a lot."},
+      {q:"Why is retirement default?", a:"Defaults reduce decision fatigue. You can always edit goals, but starting is the hard part."}
+    ];
+
+    const SOCIAL = {
+      "Child Education": [
+        "Many parents start late — starting now gives you flexibility as fees rise.",
+        "Parents who start early rarely need panic contributions later."
+      ],
+      "Retirement": [
+        "Most people under-save because retirement feels far away. FutureLock makes it feel ‘present’ via dashboards.",
+        "Staying consistent beats constantly changing strategies."
+      ],
+      "Default": [
+        "People stick better when the default is already set — we use that to your advantage.",
+        "Small automatic decisions outperform big emotional decisions."
+      ]
+    };
+
+    let scenario = "base";
+
+    function render(){
+      const plan = getPlan();
+      if(!plan){
+        alert("No saved plan found. Please fill the planner first.");
+        window.location.href = "planner.html";
+        return;
+      }
+
+      const pricing = getPricing(); // optional for display/logic
+      const gName = goalName(plan);
+      const gKey = goalKey(plan);
+
+      const startY = Number(plan.startYear);
+      const targetY = Number(plan.targetYear);
+      const years = targetY - startY;
+
+      const risk = plan.risk || "Moderate";
+      const r = scenarioReturn(risk, scenario);
+
+      const base = GOAL_BASE[gKey].base;
+      const infl = GOAL_BASE[gKey].infl;
+
+      // Inflate "goal corpus" to target year from now (proxy)
+      const inflationYears = Math.max(0, targetY - (new Date().getFullYear()));
+      const targetCorpus = base * Math.pow(1 + infl, inflationYears);
+
+      const monthly = Number(plan.monthlyInvestment || 0);
+      const existing = Number(plan.existingSavings || 0);
+
+      const fv = existing * Math.pow(1 + r, years) + fvAnnuity(monthly, r, years);
+      const requiredMonthly = requiredMonthlyForTarget(Math.max(0, targetCorpus - existing * Math.pow(1 + r, years)), r, years);
+
+      const prob = computeProbability(monthly, requiredMonthly, years, risk);
+
+      document.getElementById("goalArt").innerHTML = goalSVG(gKey);
+
+      document.getElementById("k_goal").textContent = gName;
+      document.getElementById("k_years").textContent = years > 0 ? `${years} years` : "—";
+      document.getElementById("k_monthly").textContent = INR(monthly);
+      document.getElementById("k_required").textContent = (requiredMonthly === Infinity) ? "—" : INR(requiredMonthly);
+      document.getElementById("k_value").textContent = INR(fv);
+
+      const pct = Math.round(prob * 100);
+      document.getElementById("k_prob").textContent = `${pct}%`;
+
+      // Timeline bar: how “covered” you are based on adequacy ratio
+      const coverage = (requiredMonthly === Infinity) ? 0 : clamp(monthly / requiredMonthly, 0, 1);
+      document.getElementById("progressFill").style.width = (coverage * 100).toFixed(0) + "%";
+      document.getElementById("p_start").textContent = startY;
+      document.getElementById("p_target").textContent = targetY;
+
+      const lossNudge = document.getElementById("lossNudge");
+      const gapBox = document.getElementById("gapBox");
+
+      if(requiredMonthly !== Infinity && monthly < requiredMonthly){
+        gapBox.style.display = "block";
+        const gap = requiredMonthly - monthly;
+        gapBox.textContent = `Gap alert: You’re short by about ${INR(gap)} / month for this scenario. Fixing it now is cheaper than fixing it later.`;
+      } else {
+        gapBox.style.display = "none";
+      }
+
+      const delay5y = Math.max(1, years - 5);
+      const requiredIfDelayed = requiredMonthlyForTarget(
+        Math.max(0, targetCorpus - existing * Math.pow(1 + r, delay5y)),
+        r,
+        delay5y
+      );
+
+      if(requiredMonthly !== Infinity && requiredIfDelayed !== Infinity){
+        const delta = requiredIfDelayed - requiredMonthly;
+        lossNudge.textContent = `Loss aversion: If you delay investing by 5 years, your required monthly can rise by ~${INR(delta)}. Future-you will hate that.`;
+      } else {
+        lossNudge.textContent = "Loss aversion: Delay makes goals heavier. Start early to keep the monthly commitment light.";
+      }
+
+      // right column nudges
+      const socialPool = SOCIAL[gKey] || SOCIAL["Default"];
+      document.getElementById("socialProofText").textContent =
+        socialPool[Math.floor(Math.random()*socialPool.length)];
+
+      // Inflation comparison messaging
+      const inflPct = Math.round(infl * 100);
+      const yourPct = plan.salaryMonthly ? Math.round((monthly / plan.salaryMonthly) * 100) : 0;
+      document.getElementById("inflationText").textContent =
+        `${gKey} costs tend to rise (inflation proxy ~${inflPct}%/yr). You’re committing ~${yourPct}% of salary monthly — adjust if the gap shows red.`;
+
+      // random FAQ per visit
+      const pick = FAQS[Math.floor(Math.random()*FAQS.length)];
+      document.getElementById("faqQ").textContent = pick.q;
+      document.getElementById("faqA").textContent = pick.a;
+
+      // chart series yearly points
+      const points = [];
+      for(let y=0; y<=years; y++){
+        const yearLabel = (startY + y).toString();
+        const fvY = existing * Math.pow(1 + r, y) + fvAnnuity(monthly, r, y);
+        points.push({ label: yearLabel, value: fvY });
+      }
+
+      const canvas = document.getElementById("growthCanvas");
+      drawGrowth(canvas, points.length > 1 ? points : [{label:startY.toString(), value:0},{label:targetY.toString(), value:fv}]);
+
+      const sName = (scenario==="base")?"Base":(scenario==="bad")?"Bad year":"Good year";
+      document.getElementById("chartNote").textContent =
+        `${sName} scenario uses ~${Math.round(r*100)}% annual return assumption (risk-adjusted).`;
+
+      // redemption friction message depends on goal
+      const redeemMsg = document.getElementById("redeemMsg");
+      if(gKey === "Child Education"){
+        redeemMsg.textContent = "Withdrawing now may reduce your child’s future education options. Do you want to break the plan?";
+      } else if(gKey === "Retirement"){
+        redeemMsg.textContent = "Withdrawing now reduces future security. Future-you will need a bigger monthly burden later.";
+      } else {
+        redeemMsg.textContent = "Withdrawing now weakens your goal streak and increases future monthly pressure.";
+      }
+
+      // Optional: show pricing state subtly via localStorage (not visible here, but kept)
+      if(pricing && pricing.joinPath === "company"){
+        // Could add a badge later; keeping clean for now.
+      }
+    }
+
+    // Toggle buttons
+    const tBase = document.getElementById("t_base");
+    const tBad = document.getElementById("t_bad");
+    const tGood = document.getElementById("t_good");
+
+    function setActive(btn){
+      [tBase, tBad, tGood].forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+    }
+
+    tBase.addEventListener("click", ()=>{ scenario="base"; setActive(tBase); render(); });
+    tBad.addEventListener("click", ()=>{ scenario="bad"; setActive(tBad); render(); });
+    tGood.addEventListener("click", ()=>{ scenario="good"; setActive(tGood); render(); });
+
+    // Redeem friction modal
+    const overlay = document.getElementById("modalOverlay");
+    document.getElementById("redeemBtn").addEventListener("click", ()=> overlay.style.display="flex");
+    document.getElementById("cancelRedeem").addEventListener("click", ()=> overlay.style.display="none");
+    document.getElementById("confirmRedeem").addEventListener("click", ()=>{
+      overlay.style.display="none";
+      alert("Redeem simulated ✅ (In real app, this would trigger withdrawal + a cooling-off period.)");
+    });
+
+    // Initial
+    render();
+  </script>
+</body>
+</html>
